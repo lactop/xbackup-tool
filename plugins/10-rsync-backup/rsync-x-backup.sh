@@ -43,14 +43,14 @@ if test -d "$datedir"; then
   exit 0
 fi
 
+mkdir -p $tgtdir
 (
 flock --verbose --nonblock 9 || (echo lockfile is locked; skipping backup operation; exit 1)
 
-mkdir -p $tgtdir
 mkdir -p $processdir # for some reason rsync fails if no dir exist
 
 echo "running: $rsynccmd"
-$rsynccmd
+$rsynccmd | tee "$logfile"
 
 mv --no-target-directory "$processdir" "$datedir"
 rm -f -d "$latestdir"
