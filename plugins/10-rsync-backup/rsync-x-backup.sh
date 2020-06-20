@@ -45,7 +45,8 @@ fi
 
 mkdir -p $tgtdir
 (
-flock --verbose --nonblock 9 || (echo lockfile is locked; skipping backup operation; exit 1)
+flock --nonblock 9 || (echo lockfile is locked; skipping backup operation; exit 1)
+# --verbose
 
 mkdir -p $processdir # for some reason rsync fails if no dir exist
 
