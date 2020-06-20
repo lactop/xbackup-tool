@@ -26,9 +26,14 @@ latestdir="$tgtdir/latest"
 datedir="$tgtdir/$(date +\%Y-\%m-\%d-\%H-\%M)"
 logfile="$tgtdir/rsync.log"
 sizefile="$tgtdir/rsync.size"
+rsynccmd="rsync -rt --copy-links -v --delete --stats $src/ $processdir --link-dest=$latestdir $rsync_options"
+ # --copy-links is about symolic links in source bucket
+ # --link-dest is about to where look for already downloaded data
+ # --bwlimit 1000 useful option to limit download speed / disks io
+
 
 if test ! -z "$dryrun"; then
-  echo "rsync -rt --copy-links -v --delete --stats "$src/" "$processdir" --link-dest="$latestdir" $rsync_options"
+  echo "$rsynccmd"
   echo "#dryrun"
   exit 0
 fi
@@ -44,10 +49,8 @@ flock --verbose --nonblock 9 || (echo lockfile is locked; skipping backup operat
 mkdir -p $tgtdir
 mkdir -p $processdir # for some reason rsync fails if no dir exist
 
-rsync -rt --copy-links -v --delete --stats "$src/" "$processdir" --link-dest="$latestdir" $rsync_options | tee "$logfile"
- # --copy-links is about symolic links in source bucket
- # --link-dest is about to where look for already downloaded data
- # --bwlimit 1000 useful option to limit download speed / disks io
+echo "running: $rsynccmd"
+$rsynccmd
 
 mv --no-target-directory "$processdir" "$datedir"
 rm -f -d "$latestdir"
