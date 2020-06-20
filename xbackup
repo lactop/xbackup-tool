@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+if ARGV.length == 0 || ARGV[0] == "--help"
+  puts "usage: xbackup [config-files..]"
+  exit 0
+end
+
+require_relative "xbackup-class"
+x = XBackup.new(ARGV, "force" => !!ENV["force"] )
+x.go
+x.stage "done"
