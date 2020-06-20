@@ -24,14 +24,19 @@ If xbackup is started say on sunday, only first operation will be performed.
 3. After successful data copy from `bucket` to directory `dir` on `host`, 
 a directory `dir` will be cleaned up from unnecessary data according to `clean` configuration.
 
+Processing steps
+================
+
+Each line of incoming csv data is processed by following steps in order as they specified in this document.
+
 Host filter
-===========
+-----------
 
 Day of week filter
-==================
+------------------
 
 Copy
-====
+----
 If bucket and dir columns exist: 
  * rsync data from `bucket` to `tgtdir`/`current-date-stamp-dir`/
  * use hard links for files that are not changed from previous sync.
@@ -53,7 +58,7 @@ Additionally:
  * save `tgtdir`/rsync.size file with total size of data reported by rsync
 
 Clean
-=====
+-----
 Cleans extra copies of data in `tgtdir` according to specified configuration.
 
 Let tgtdir contains items (files or dirs) which names looks like date -- whis is so after `copy` operation mentioned above.
@@ -77,7 +82,7 @@ Example clean configuration:
 which means after 0 days, keep 1 item for each day; after 30 days, keep 1 copy of 7 days, after 180 days, keep 1 copy of 30 days, after 365, delete all"
 
 Postcmd
-=======
+-------
 
 Plugin system
 =============
