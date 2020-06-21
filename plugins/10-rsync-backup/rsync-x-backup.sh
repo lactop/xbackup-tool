@@ -52,12 +52,18 @@ mkdir -p $processdir # for some reason rsync fails if no dir exist
 
 echo "running: $rsynccmd"
 $rsynccmd | tee "$logfile"
+echo "rsync complete"
+sleep 3
 
+# extract and save size
+echo "$datedir" >>"$sizefile"
+cat "$logfile" | grep -Po '(?<=total size is )[\d,]+' >>"$sizefile"
+
+# move dirs
 mv --no-target-directory "$processdir" "$datedir"
 rm -f -d "$latestdir"
 ln --relative -s "$datedir" "$latestdir"
 
-cat "$logfile" | grep -Po '(?<=total size is )[\d,]+' >"$sizefile"
-echo "rsync-x-backup complete. rsync log in $logfile"
+echo "rsync-x-backup complete. logfile $logfile"
 
 ) 9>"$tgtdir/lockfile"
