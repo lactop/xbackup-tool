@@ -6,7 +6,9 @@ if ARGV.length == 0 || ARGV[0] == "--help"
 end
 
 require_relative "xbackup-class"
-x = XBackup.new(ARGV, "force" => !!ENV["force"] )
-x.log "force flag is #{x.force}"
+x = XBackup.new(ARGV, "force" => ["1","true","--force"].include?(ENV["force"]) )
+#x.log "force flag is #{x.force}, ENV.force is #{ENV['force'].inspect}"
+exit
+
 x.go
 x.stage "done"
