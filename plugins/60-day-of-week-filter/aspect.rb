@@ -4,16 +4,20 @@ module XDayOfWeekFilter
 
   def is_allowed?(h)
     return super if ! h.has_key?("dayofweek")
-    return super if self.force
+    if self.force
+      log "DayOfWeekFilter: force flag is set, passing"
+      return super
+    end
     
     days = getdays( h["dayofweek"] )
 
     today=Date.today.cwday
-    log "DAYS=#{days}, today=#{today}"
+    log "DayOfWeekFilter: DAYS=#{days}, today=#{today}"
     if days.include?(today) 
-      log "day match"
+      log "DayOfWeekFilter: day match, passing"
       super
     else
+      log "DayOfWeekFilter: day not match, skipping."
       false
     end
   end

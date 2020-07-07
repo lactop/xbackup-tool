@@ -7,5 +7,6 @@ end
 
 require_relative "xbackup-class"
 x = XBackup.new(ARGV, "force" => !!ENV["force"] )
+x.log "force flag is #{x.force}"
 x.go
 x.stage "done"
