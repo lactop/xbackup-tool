@@ -29,7 +29,7 @@ root@host.com:/data-db/korzinki/db1, data3, /data/xbackup-all/example-db-sites, 
 * `clean` column denotes how old copies should be cleaned up.
 * `rcync_options` column is extra options for rsync.
 
-See full specification for details.
+See detailed specification in link below.
 
 2. Run backup-tool:
 ```
@@ -40,7 +40,7 @@ This loads example.csv and performs tasks specified in it, one by one.
 Many files may be specified, for example: `xbackup-tool my-backups*.csv`
 
 # Specification
-[spec](spec.md)
+[Detailed specification](spec.md)
 
 
 # Copyright
