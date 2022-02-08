@@ -21,8 +21,8 @@ That is, if xbackup is started on computer with hostname "machine1" on wendesday
 the first and last operations will be peformed.
 If xbackup is started say on sunday, only first operation will be performed.
 
-3. After successful data copy from `bucket` to directory `dir` on `host`, 
-a directory `dir` will be cleaned up from unnecessary data according to `clean` configuration.
+3. After successful data copy from `bucket` to directory `tgtdir` on `host`, 
+a directory `tgtdir` will be cleaned up from unnecessary data according to `clean` configuration.
 
 Processing steps
 ================
@@ -34,6 +34,11 @@ Host filter
 
 Day of week filter
 ------------------
+Format:
+* `*` means all
+* `N1-N2` means day range. 1 is monday, 7 is sunday.
+* `N1 N2 N3` means day list.
+All above may be mixed, for example: `1-3 5` means monday, tuesday, wednesday and friday.
 
 Copy
 ----
@@ -53,7 +58,7 @@ As a result, a following directory structure appears:
 where each date folder contains full data backup. 
 
 Additionally:
- * use file lock on `dir`/lockfile. if file is already locked - discard operation.
+ * use file lock on `tgtdir`/lockfile. if file is already locked - discard operation.
  * save `tgtdir`/rsync.log file
  * save `tgtdir`/rsync.size file with total size of data reported by rsync
 
