@@ -87,11 +87,17 @@ Postcmd
 Plugin system
 =============
 Copy, filters, clean aspects mentioned above are plugins. Other plugins might exist.
-A common algorythm of processing is a following.
+
+Plugins are loaded from plugins dir. They all are merged as mixins into single class.
+The order of merge is alphabetical, first plugin is loaded first, 
+then the next plugin is mixed-in upon first, so on.
 
 - Let `columns` is a list of columns of current csv file.
 - Let `d` is a list of values of fields of current line.
 - Let `h` is a hash for of `d` where keys are column names.
+
+Thus each data line in a csv file denotes a task.
+A common algorythm of each task processing is a following.
 
 ## Step 1.
 Call `is_allowed? : h -> true|false` method. If operation is allowed, it should return true.

@@ -1,0 +1,10 @@
+bucket, host, tgtdir, dayofweek, clean, rsync_options
+
+### example-db-main - this is comment
+root@host.com:/mnt/lact_logs/backup/, host15, /data/xbackup-all/example-db-main, 1-7, 60:7 180:32 1000:-1
+root@host.com:/mnt/lact_logs/backup/, data3, /data/xbackup-all/example-db-main, 1-7, 60:7 180:32 1000:-1
+
+### example-db-sites - this is comment
+root@host.com:/data-db/korzinki/db1, host15, /data/xbackup-all/example-db-sites, 1-7, 60:7 180:32 1000:-1,--bwlimit=1000
+root@host.com:/data-db/korzinki/db1, data3, /data/xbackup-all/example-db-sites, 1,    60:7 180:32 1000:-1,--bwlimit=1000
+
