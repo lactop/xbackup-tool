@@ -9,6 +9,7 @@ class XBackup
     self.force = options["force"]
   end
   
+  # main entry point
   def go
     for f in self.files do
       process_1_csv( f )
@@ -44,15 +45,18 @@ class XBackup
       end
   end
   
+  # per-line check is processing needed
   def is_allowed?(h)
     true
   end
   
+  # per-line entry point
   def process( h )
     true
   end
   
   def run(env,cmd)
+    puts "running cmd=#{cmd} with env=#{env}"
     system(env,cmd)
   end
   
@@ -71,7 +75,7 @@ Dir[ File.join( __dir__, "plugins","*","aspect.rb" ) ].sort.reverse.each do |f|
   
   File.basename( File.dirname(f) ) =~ /^\d+-(.+)$/
   aspect_name = "X" + $1.split('-').collect(&:capitalize).join
-  # log "see aspect #{aspect_name}"
+  puts "prepending aspect #{aspect_name}"
   aspect = Kernel.const_get( aspect_name )
   
   XBackup.prepend aspect

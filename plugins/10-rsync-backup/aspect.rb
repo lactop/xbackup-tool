@@ -5,10 +5,18 @@ module XRsyncBackup
       stage "rsync backup"
       app=File.join(__dir__,"rsync-x-backup.sh" )
       r = run( { "src" => h["bucket"], "tgtdir" => h["tgtdir"], "rsync_options"=>h["rsync_options"] }, app )
-      r && super
+      log "rsync-x-backup.sh returned code #{r}"
+      if r
+         log "going to next level"
+         super
+      else
+         log "skipping next level"
+         r
+      end
+      #r && super
     else
-      log "bucket or tgtdir columns not specified"
-      false
+      log "bucket or tgtdir columns not specified, skipping rsync stage"
+      super
     end
   end
   
