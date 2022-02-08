@@ -1,5 +1,7 @@
 # xbackup-tool
 
+Allows to setup multi-machine backup process in a single set of configuration files.
+
 # Usage
 
 1. Create a CSV file with configuration for the tool.
@@ -17,7 +19,7 @@ root@host.com:/data-db/korzinki/db1, host15, /data/xbackup-all/example-db-sites,
 root@host.com:/data-db/korzinki/db1, data3, /data/xbackup-all/example-db-sites, 1,    60:7 180:32 1000:-1,--bwlimit=1000
 ```
 
-* each line denotes a task.
+* each data line denotes a task.
 * `bucket` column is a rsync-format url to get files from
 * `tgtdir` column is a dir on local machine to backup files to
 
