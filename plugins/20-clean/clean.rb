@@ -123,6 +123,7 @@ Dir[ targetdir + "/*" ].sort.each do |d|
   else
     hash[index][key] = true
     puts "KEEP"
+    puts
   end
   
   end  # for conf
