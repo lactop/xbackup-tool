@@ -26,10 +26,16 @@ latestdir="$tgtdir/latest"
 datedir="$tgtdir/$(date +\%Y-\%m-\%d-\%H-\%M)"
 logfile="$tgtdir/rsync.log"
 sizefile="$tgtdir/rsync.size"
-rsynccmd="rsync -rt --copy-links -v --delete --stats $src/ $processdir --link-dest=$latestdir $rsync_options"
+
  # --copy-links is about symolic links in source bucket
  # --link-dest is about to where look for already downloaded data
  # --bwlimit 1000 useful option to limit download speed / disks io
+ # -m skip empty dirs == --prune-empty-dirs
+
+rsynccmd="rsync -rt --copy-links -v --delete --stats $src/ $processdir --link-dest=$latestdir $rsync_options"
+# чето массив не сработал
+#rsynccmd=(rsync -rt --copy-links -v --delete --stats $src/ $processdir --link-dest=$latestdir $rsync_options)
+# https://unix.stackexchange.com/questions/444946/how-can-we-run-a-command-stored-in-a-variable
 
 
 if test ! -z "$dryrun"; then
@@ -51,7 +57,8 @@ flock --nonblock 9 || (echo lockfile is locked; skipping backup operation; exit 
 mkdir -p $processdir # for some reason rsync fails if no dir exist
 
 echo "running: $rsynccmd"
-$rsynccmd | tee "$logfile"
+#"${rsynccmd[@]}" | tee "$logfile"
+eval "$rsynccmd" | tee "$logfile"
 echo "rsync complete"
 sleep 3
 
